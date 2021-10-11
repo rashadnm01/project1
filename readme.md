@@ -18,3 +18,12 @@ This is a Trivia Game
 #### I have trouble with
 
 My code looked like
+
+```js
+console.log("cool");
+```
+
+| Column 1 | Column 2 |
+| -------- | -------- |
+| thing 1  | thing 2  |
+| yadda1   | yadda2   |
