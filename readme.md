@@ -23,7 +23,7 @@ My code looked like
 console.log("cool");
 ```
 
-| Column 1 | Column 2 |
-| -------- | -------- |
-| thing 1  | thing 2  |
-| yadda1   | yadda2   |
+| Column1 | Column2 |
+| ------- | ------- |
+| thing1  | thing2  |
+| yadda1  | yadda2  |
