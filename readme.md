@@ -12,3 +12,9 @@ This is a Trivia Game
 - CSS
 - JS
 - jQuery
+
+## Challenges
+
+#### I have trouble with
+
+My code looked like
