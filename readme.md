@@ -1,6 +1,6 @@
 # Project 1 Documentation
 
-## by Alex Merced
+## by Rashad M.
 
 ## Introduction
 
