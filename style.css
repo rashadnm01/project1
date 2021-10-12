@@ -1,0 +1,31 @@
+body {
+  text-align: center;
+}
+#display {
+  margin: auto;
+  height: 500px;
+  width: 800px;
+  border: 1px solid rgb(109, 178, 199);
+}
+#q-bar {
+  border: 3px solid rgb(109, 178, 199);
+  height: 100px;
+}
+#answer-box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+input {
+  width: 40%;
+  height: 70px;
+  border: 1px solid blue;
+  border-radius: 10px;
+  margin: 60px auto;
+  background-color: rgb(77, 151, 151);
+  transition: 0.3s;
+}
+.answers:hover {
+  background-color: rgb(93, 209, 209);
+  transform: scale(1.1);
+}
