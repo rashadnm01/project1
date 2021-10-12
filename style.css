@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  cursor: none;
 }
 #display {
   margin: auto;
@@ -24,8 +25,21 @@ input {
   margin: 60px auto;
   background-color: rgb(77, 151, 151);
   transition: 0.3s;
+  cursor: none;
 }
-.answers:hover {
+.hover {
   background-color: rgb(93, 209, 209);
   transform: scale(1.1);
+  transition-duration: 0.5 ease;
+}
+
+/*Cursor animation by Dev Ed: https://www.youtube.com/watch?v=TpwpAYi-p2w*/
+#cursor {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid aqua;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }

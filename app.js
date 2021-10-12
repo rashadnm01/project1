@@ -81,4 +81,23 @@ $.ajax(
   //now?
   qaGen();
   console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
+
+  ///////////////////////////////
+  /*    MOUSE CURSOR CHANGER    */
+  ///////////////////////////////
+  const cursor = (e) => {
+    mouseCursor.css("top", e.pageY + "px");
+    mouseCursor.css("left", e.pageX + "px");
+  };
+  const mouseCursor = $("#cursor");
+  $(window).on("mousemove", cursor);
+
+  $("input").on("mouseover", (event) => {
+    const target = $(event.target);
+    target.addClass("hover");
+  });
+  $("input").on("mouseout", (event) => {
+    const target = $(event.target);
+    target.removeClass("hover");
+  });
 });
