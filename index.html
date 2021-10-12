@@ -16,7 +16,24 @@
   <body>
     <body>
       <h1>Business Trivia Game</h1>
-      <div id="scoreboard"></div>
+      
+      <div class="scoreboard">
+        <div class ="players">
+          <h3>Player 1</h3>
+          <h3>Player 2</h3>
+        </div>
+        <div class="score">
+          <h3>00</h3>
+          <h3>:</h3>
+          <h3>00</h3>
+        </div>
+        <div class=timer>
+          <h3>00</h3>
+          <h3>:</h3>
+          <h3 id="seconds">00</h3>
+        </div>
+      </div>
+
       <div id="display">
         <div id="q-bar">
           <h3 id="q">
@@ -24,12 +41,14 @@
             Repellendus, distinctio.
           </h3>
         </div>
-        <form id="answer-box">
-          <input id="a" type="button" value="Lorem, ipsum."></input>
-          <input id="b" type="button" value="Lorem, ipsum."></input>
-          <input id="c" type="button" value="Lorem, ipsum."></input>
-          <input id="d" type="button" value="Lorem, ipsum."></input>
-        </form>
+        <div id="game">
+          <form id="answer-box">
+            <input id="a" type="button" value="Lorem, ipsum."></input>
+            <input id="b" type="button" value="Lorem, ipsum."></input>
+            <input id="c" type="button" value="Lorem, ipsum."></input>
+            <input id="d" type="button" value="Lorem, ipsum."></input>
+          </form>
+        </div>
       </div>
       <div id="cursor"></div>
     </body>

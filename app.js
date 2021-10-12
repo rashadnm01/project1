@@ -5,18 +5,59 @@ $.ajax(
   /*
   /////////////////////////////
   /////////////////////////////
+  *************DOM*************
+  /////////////////////////////
+  /////////////////////////////
+  */
+  const $game = $("#game");
+  $("#a").hide();
+  $("#b").hide();
+  $("#c").hide();
+  $("#d").hide();
+  $("#q").text("RULES");
+  /*
+  /////////////////////////////
+  /////////////////////////////
+  ***********RULE BOOK*********
+  /////////////////////////////
+  /////////////////////////////
+  */
+  const $rules = $("<h2>")
+    .attr("id", "rules")
+    .text(
+      "Two players will take turns answering questions, with only 3 seconds on the clock! If a player does not answer a question in time, they're score will be reset. If a player answers a question wrong, they lose a point. Answer a question correct, get 2 points. Answer 2 in row? Get 3 points. Answer 3 in a row? Get 4! So-fourth-and-so-on. The player with the most points wins! There are NO negative scores."
+    );
+  const $play = $("<button>").addClass("play").text("Play");
+  $game.append($rules, $play);
+  /*
+  /////////////////////////////
+  /////////////////////////////
   **********GAME STATE*********
   /////////////////////////////
   /////////////////////////////
   */
-  const players = {
-    player1: {
-      name: "",
-      score: 0,
+  const game = {
+    players: {
+      player1: {
+        name: "",
+        score: 0,
+      },
+      player2: {
+        name: "",
+        score: 0,
+      },
     },
-    player2: {
-      name: "",
-      score: 0,
+    winner: false,
+    turn: true,
+    start: () => {
+      $rules.remove();
+      $play.remove();
+      $("#a").show();
+      $("#b").show();
+      $("#c").show();
+      $("#d").show();
+      getData();
+      qaGen();
     },
   };
 
@@ -37,6 +78,11 @@ $.ajax(
   /////////////////////////////
   /////////////////////////////
   */
+
+  ///////////////////////////////
+  /*        START GAME         */
+  ///////////////////////////////
+  $play.on("click", game.start);
   ///////////////////////////////
   /* QUESTION/ANSWER DATA PULL */
   ///////////////////////////////
@@ -72,15 +118,15 @@ $.ajax(
     choices.c.splice(rng, 1);
     choices.d.splice(rng, 1);
   };
-  //whats in my arrays?
-  getData();
-  console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
-  //what about now?
-  qaGen();
-  console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
-  //now?
-  qaGen();
-  console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
+  // //whats in my arrays?
+  // getData();
+  // console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
+  // //what about now?
+  // qaGen();
+  // console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
+  // //now?
+  // qaGen();
+  // console.log(questions, answers, choices.a, choices.b, choices.c, choices.d);
 
   ///////////////////////////////
   /*    MOUSE CURSOR CHANGER    */
@@ -91,12 +137,22 @@ $.ajax(
   };
   const mouseCursor = $("#cursor");
   $(window).on("mousemove", cursor);
-
+  ///////////////////////////////
+  /*    MOUSE CURSOR EVENTS    */
+  ///////////////////////////////
   $("input").on("mouseover", (event) => {
     const target = $(event.target);
     target.addClass("hover");
   });
   $("input").on("mouseout", (event) => {
+    const target = $(event.target);
+    target.removeClass("hover");
+  });
+  $("button").on("mouseover", (event) => {
+    const target = $(event.target);
+    target.addClass("hover");
+  });
+  $("button").on("mouseout", (event) => {
     const target = $(event.target);
     target.removeClass("hover");
   });
