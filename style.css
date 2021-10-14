@@ -16,7 +16,8 @@
 body {
   text-align: center;
   cursor: none;
-  background-color: beige;
+  background-image: url(images/field.jpg);
+  color: rgb(187, 250, 60);
 }
 h1 {
   font-family: "Orbitron", sans-serif;
@@ -24,6 +25,7 @@ h1 {
   width: 780px;
   margin: 20px auto;
   padding: 5px;
+  color: greenyellow;
 }
 .scoreboard {
   width: 400px;
@@ -95,13 +97,13 @@ h1 {
 }
 #display {
   margin: auto;
-  height: 500px;
+  height: 600px;
   width: 800px;
   border: 1px solid rgb(109, 178, 199);
 }
 #q-bar {
   border: 3px solid rgb(109, 178, 199);
-  height: 100px;
+  height: 150px;
 }
 #answer-box {
   display: flex;
@@ -125,14 +127,148 @@ input {
   transform: scale(1.1);
   transition-duration: 0.5 ease;
 }
-
+.click-animate {
+  transform: skewX(45deg) translateX(2000px);
+  transition-duration: 2s;
+}
+.correct {
+  background-color: greenyellow;
+}
+.incorrect {
+  background-color: red;
+}
 /*Cursor animation by Dev Ed: https://www.youtube.com/watch?v=TpwpAYi-p2w*/
 #cursor {
   width: 2rem;
   height: 2rem;
   border: 2px solid aqua;
+  background-color: rgb(32, 182, 182, 0.5);
   border-radius: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
   pointer-events: none;
+}
+@media (max-width: 82 0px) {
+  h1 {
+    width: 600px;
+    margin: 20px auto;
+    padding: 5px;
+  }
+  .scoreboard {
+    width: 350px;
+    height: 200px;
+  }
+  .players {
+    width: 100%;
+  }
+  .play {
+    width: 200px;
+    height: 100px;
+    font-size: 30px;
+  }
+  #display {
+    margin: auto;
+    height: 400px;
+    width: 600px;
+    border: 1px solid rgb(109, 178, 199);
+  }
+  #q-bar {
+    border: 3px solid rgb(109, 178, 199);
+    height: 100px;
+  }
+  #q {
+    font-size: 25px;
+  }
+  input {
+    margin: 30px auto;
+  }
+  /*Cursor animation by Dev Ed: https://www.youtube.com/watch?v=TpwpAYi-p2w*/
+  #cursor {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid aqua;
+  }
+  @media (max-width: 630px) {
+    h1 {
+      width: 400px;
+      margin: 20px auto;
+      padding: 5px;
+    }
+    .scoreboard {
+      width: 300px;
+      height: 150px;
+    }
+    .players {
+      font-size: 15px;
+    }
+    .score {
+      font-size: 25px;
+    }
+    .timer {
+      font-size: 25px;
+    }
+    .play {
+      width: 200px;
+      height: 100px;
+      font-size: 30px;
+    }
+    #display {
+      margin: auto;
+      height: 350px;
+      width: 450px;
+      border: 1px solid rgb(109, 178, 199);
+    }
+    #q-bar {
+      border: 3px solid rgb(109, 178, 199);
+      height: 100px;
+    }
+    #q {
+      font-size: 25px;
+    }
+    input {
+      margin: 30px auto;
+    }
+    /*Cursor animation by Dev Ed: https://www.youtube.com/watch?v=TpwpAYi-p2w*/
+    #cursor {
+      width: 1rem;
+      height: 1rem;
+      border: 1px solid aqua;
+    }
+  }
+}
+@media (min-width: 1400px) {
+  h1 {
+    width: 1200px;
+  }
+  .timer {
+    padding-top: 5px;
+    font-size: 40px;
+  }
+  #rules {
+    padding: 15px;
+    font-size: 50px;
+  }
+  #q {
+    font-size: 40px;
+    margin-top: 0px;
+  }
+  .play {
+    margin-top: 20px;
+    width: 300px;
+    height: 100px;
+    font-size: 65px;
+  }
+  #display {
+    height: 850px;
+    width: 1200px;
+  }
+  #q-bar {
+    height: 120px;
+  }
+  input {
+    width: 60%;
+    height: 70px;
+    margin: 20px auto;
+    font-size: 25px;
+  }
 }

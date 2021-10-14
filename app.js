@@ -25,7 +25,7 @@ $.ajax(
   const $rules = $("<h2>")
     .attr("id", "rules")
     .text(
-      "Two players will take turns answering questions, with only 3 seconds on the clock! If a player does not answer a question in time, they're score will be reset. If a player answers a question wrong, they lose a point. Answer a question correct, get 2 points. Answer 2 in row? Get 3 points. Answer 3 in a row? Get 4! So-fourth-and-so-on. The player with the most points wins! There are NO negative scores."
+      "Two players will take turns answering questions. If a player answers a question wrong, they lose a point. Answer a question correct, get 2 points. Answer 2 in row? Get 3 points. Answer 3 in a row? Get 4! So-fourth-and-so-on. The player with the most points wins! There are NO negative scores."
     );
   const $play = $("<button>").addClass("play").text("Play");
   $game.append($rules, $play);
@@ -41,10 +41,12 @@ $.ajax(
       player1: {
         name: "",
         score: 0,
+        multiplier: 0,
       },
       player2: {
         name: "",
         score: 0,
+        multiplier: 0,
       },
     },
     winner: false,
@@ -59,6 +61,7 @@ $.ajax(
       getData();
       qaGen();
     },
+    index: 0,
   };
 
   const questions = [];
@@ -80,16 +83,12 @@ $.ajax(
   */
 
   ///////////////////////////////
-  /*        START GAME         */
-  ///////////////////////////////
-  $play.on("click", game.start);
-  ///////////////////////////////
   /* QUESTION/ANSWER DATA PULL */
   ///////////////////////////////
   const getData = () => {
     for (let i = 0; i < data.items.length; i++) {
       questions.push(data.items[i].fields.question);
-      answers.push(data.items[i].fields.answers);
+      answers.push(data.items[i].fields.answer);
       choices.a.push(data.items[i].fields.a);
       choices.b.push(data.items[i].fields.b);
       choices.c.push(data.items[i].fields.c);
@@ -103,6 +102,7 @@ $.ajax(
   const qaGen = () => {
     //random number generator
     const rng = Math.floor(Math.random() * questions.length);
+    game.index = rng;
     //sets question
     $("#q").text(questions[rng]);
 
@@ -111,12 +111,72 @@ $.ajax(
     $("#b").val(choices.b[rng]);
     $("#c").val(choices.c[rng]);
     $("#d").val(choices.d[rng]);
-    //removes questions and answers from array after use
-    questions.splice(rng, 1);
-    choices.a.splice(rng, 1);
-    choices.b.splice(rng, 1);
-    choices.c.splice(rng, 1);
-    choices.d.splice(rng, 1);
+  };
+  ///////////////////////////////
+  /*  SCORING AND TURN-TAKING  */
+  ///////////////////////////////
+  const changeTurn = () => {
+    if (game.turn === true) {
+      game.turn = false;
+    } else {
+      game.turn = true;
+    }
+  };
+  const changeScore = (points) => {
+    if (game.turn === true) {
+      game.players.player1.score += points;
+    } else {
+      game.players.player2.score += points;
+    }
+    if (game.players.player1.score < 0) {
+      game.players.player1.score = 0;
+    }
+    if (game.players.player2.score < 0) {
+      game.players.player2.score = 0;
+    }
+  };
+  const determinePoints = (target) => {
+    const choice = $(target).attr("id");
+    if (choice === "a") {
+      if (answers[game.index] === choices.a[game.index]) {
+        changeScore(1);
+      } else {
+        changeScore(-1);
+      }
+    } else if (choice === "b") {
+      if (answers[game.index] === choices.b[game.index]) {
+        changeScore(1);
+      } else {
+        changeScore(-1);
+      }
+    } else if (choice === "c") {
+      if (answers[game.index] === choices.c[game.index]) {
+        changeScore(1);
+      } else {
+        changeScore(-1);
+      }
+    } else if (choice === "d") {
+      if (answers[game.index] === choices.d[game.index]) {
+        changeScore(1);
+      } else {
+        changeScore(-1);
+      }
+    }
+  };
+  const updateScore = () => {
+    if (game.turn === true) {
+      if (game.players.player1.score < 10) {
+        $("#p1").text("0" + game.players.player1.score);
+      } else {
+        $("#p1").text(game.players.player1.score);
+      }
+    } else {
+      if (game.players.player2.score < 10) {
+        $("#p2").text("0" + game.players.player2.score);
+      } else {
+        $("#p2").text(game.players.player2.score);
+      }
+    }
   };
   // //whats in my arrays?
   // getData();
@@ -155,5 +215,22 @@ $.ajax(
   $("button").on("mouseout", (event) => {
     const target = $(event.target);
     target.removeClass("hover");
+  });
+
+  /*
+  /////////////////////////////
+  /////////////////////////////
+  *****GAME FUNCTIONALITY******
+  /////////////////////////////
+  /////////////////////////////
+  */
+  $play.on("click", game.start);
+  $("input").on("click", (event) => {
+    setTimeout(() => {
+      determinePoints(event.target);
+      updateScore();
+      changeTurn();
+      qaGen();
+    }, 2000);
   });
 });
