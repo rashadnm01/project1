@@ -25,7 +25,7 @@ $.ajax(
   const $rules = $("<h2>")
     .attr("id", "rules")
     .text(
-      "Two players will take turns answering questions. If a player answers a question wrong, they lose a point. Answer a question correct, get 2 points. Answer 2 in row? Get 3 points. Answer 3 in a row? Get 4! So-fourth-and-so-on. The player with the most points wins! There are NO negative scores."
+      "Two players will take turns answering questions. If a player answers a question wrong, they lose a point. Answer a question correct, get 1 point. Answer 2 in row? Get 2 points. Answer 3 in a row? Get 3! So-fourth-and-so-on. The player with the most points wins! There are NO negative scores."
     );
   const $play = $("<button>").addClass("play").text("Play");
   $game.append($rules, $play);
@@ -100,21 +100,49 @@ $.ajax(
   /* QUESTION/ANSWER GENERATOR */
   ///////////////////////////////
   const qaGen = () => {
-    //random number generator
-    const rng = Math.floor(Math.random() * questions.length);
-    game.index = rng;
-    //sets question
-    $("#q").text(questions[rng]);
+    if (questions.length !== 0) {
+      //random number generator
+      const rng = Math.floor(Math.random() * questions.length);
 
-    //sets answers
-    $("#a").val(choices.a[rng]);
-    $("#b").val(choices.b[rng]);
-    $("#c").val(choices.c[rng]);
-    $("#d").val(choices.d[rng]);
+      game.index = rng;
+      //sets question
+      $("#q").text(questions[rng]);
+
+      //sets answers
+      $("#a").val(choices.a[rng]);
+      $("#b").val(choices.b[rng]);
+      $("#c").val(choices.c[rng]);
+      $("#d").val(choices.d[rng]);
+    } else {
+      win();
+    }
   };
   ///////////////////////////////
   /*  SCORING AND TURN-TAKING  */
   ///////////////////////////////
+  const win = () => {
+    $("#q").addClass("win-animate");
+    $("#q").css("font-size", "20px");
+    $("input").remove();
+    const $stat1 = $("<h3>")
+      .addClass("final-score")
+      .text("Player 1 had a score of: " + game.players.player1.score);
+    const $stat2 = $("<h3>")
+      .addClass("final-score")
+      .text("Player 2 had a score of: " + game.players.player2.score);
+    const $playAgain = $("<button>")
+      .addClass("play-again")
+      .text("Play Again")
+      .attr("onclick", "window.location.reload()");
+    $("#game").append($stat1, $stat2, $playAgain);
+    if (game.players.player1.score < game.players.player2.score) {
+      $("#q").text("PLAYER 2 HAS WON RASHAD'S BUSINESS TRIVIA GAME!");
+    } else if (game.players.player1.score > game.players.player2.score) {
+      $("#q").text("PLAYER 1 HAS WON RASHAD'S BUSINESS TRIVIA GAME!");
+    } else {
+      $("#q").text("DRAW!");
+    }
+  };
   const changeTurn = () => {
     if (game.turn === true) {
       game.turn = false;
@@ -124,9 +152,9 @@ $.ajax(
   };
   const changeScore = (points) => {
     if (game.turn === true) {
-      game.players.player1.score += points;
+      game.players.player1.score += points + game.players.player1.multiplier;
     } else {
-      game.players.player2.score += points;
+      game.players.player2.score += points + game.players.player2.multiplier;
     }
     if (game.players.player1.score < 0) {
       game.players.player1.score = 0;
@@ -139,26 +167,74 @@ $.ajax(
     const choice = $(target).attr("id");
     if (choice === "a") {
       if (answers[game.index] === choices.a[game.index]) {
+        $(target).addClass("correct");
         changeScore(1);
+        if (game.turn === true) {
+          game.players.player1.multiplier += 1;
+        } else {
+          game.players.player2.multiplier += 1;
+        }
       } else {
+        $(target).addClass("incorrect");
+        if (game.turn === true) {
+          game.players.player1.multiplier = 0;
+        } else {
+          game.players.player2.multiplier = 0;
+        }
         changeScore(-1);
       }
     } else if (choice === "b") {
       if (answers[game.index] === choices.b[game.index]) {
+        $(target).addClass("correct");
         changeScore(1);
+        if (game.turn === true) {
+          game.players.player1.multiplier += 1;
+        } else {
+          game.players.player2.multiplier += 1;
+        }
       } else {
+        $(target).addClass("incorrect");
+        if (game.turn === true) {
+          game.players.player1.multiplier = 0;
+        } else {
+          game.players.player2.multiplier = 0;
+        }
         changeScore(-1);
       }
     } else if (choice === "c") {
       if (answers[game.index] === choices.c[game.index]) {
+        $(target).addClass("correct");
         changeScore(1);
+        if (game.turn === true) {
+          game.players.player1.multiplier += 1;
+        } else {
+          game.players.player2.multiplier += 1;
+        }
       } else {
+        $(target).addClass("incorrect");
+        if (game.turn === true) {
+          game.players.player1.multiplier = 0;
+        } else {
+          game.players.player2.multiplier = 0;
+        }
         changeScore(-1);
       }
     } else if (choice === "d") {
       if (answers[game.index] === choices.d[game.index]) {
+        $(target).addClass("correct");
         changeScore(1);
+        if (game.turn === true) {
+          game.players.player1.multiplier += 1;
+        } else {
+          game.players.player2.multiplier += 1;
+        }
       } else {
+        $(target).addClass("incorrect");
+        if (game.turn === true) {
+          game.players.player1.multiplier = 0;
+        } else {
+          game.players.player2.multiplier = 0;
+        }
         changeScore(-1);
       }
     }
@@ -226,10 +302,18 @@ $.ajax(
   */
   $play.on("click", game.start);
   $("input").on("click", (event) => {
+    determinePoints(event.target);
+    updateScore();
+    changeTurn();
     setTimeout(() => {
-      determinePoints(event.target);
-      updateScore();
-      changeTurn();
+      $(event.target).removeClass("incorrect");
+      $(event.target).removeClass("correct");
+      answers.splice(game.index, 1);
+      questions.splice(game.index, 1);
+      choices.a.splice(game.index, 1);
+      choices.b.splice(game.index, 1);
+      choices.c.splice(game.index, 1);
+      choices.d.splice(game.index, 1);
       qaGen();
     }, 2000);
   });

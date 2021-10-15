@@ -127,15 +127,19 @@ input {
   transform: scale(1.1);
   transition-duration: 0.5 ease;
 }
-.click-animate {
-  transform: skewX(45deg) translateX(2000px);
-  transition-duration: 2s;
-}
 .correct {
   background-color: greenyellow;
 }
 .incorrect {
   background-color: red;
+}
+.win-animate {
+  transform: scale(2) rotate(360deg);
+  transition-duration: 1.5s;
+}
+.final-score {
+  font-size: 30px;
+  font-family: "ZCOOL KuaiLe", cursive;
 }
 /*Cursor animation by Dev Ed: https://www.youtube.com/watch?v=TpwpAYi-p2w*/
 #cursor {
